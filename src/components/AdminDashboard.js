@@ -44,6 +44,7 @@ const AdminDashboard = () => {
         {/* Main Content */}
         <div className="flex-1 p-6">
           <Routes>
+            <Route path="/" element={<Navigate to="/admin/settings" />} />
             <Route path="sponsors" element={<SponsorsAdmin />} />
             <Route path="leadership" element={<LeadershipAdmin />} />
             <Route path="events" element={<EventsAdmin />} />
