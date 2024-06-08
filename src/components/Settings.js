@@ -9,7 +9,7 @@ const Settings = () => {
   const [email, setEmail] = useState(auth.user?.email || '');
   const [username, setUsername] = useState(auth.user?.username || '');
   const [phoneNumber, setPhoneNumber] = useState(auth.user?.phoneNumber || '');
-  const [profileImage, setProfileImage] = useState(auth.user?.profileImage || '');
+  const [profileImage, setProfileImage] = useState(auth.user?.headShot || '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
