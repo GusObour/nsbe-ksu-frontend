@@ -12,7 +12,7 @@ const SponsorsAdmin = () => {
 
   const fetchSponsors = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:5000/sponsors', {
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/sponsors`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setSponsors(response.data);
@@ -26,12 +26,12 @@ const SponsorsAdmin = () => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     if (editingSponsor) {
-      await axios.put(`http://localhost:5000/sponsors/${editingSponsor._id}`, newSponsor, {
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/sponsors/${editingSponsor._id}`, newSponsor, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEditingSponsor(null);
     } else {
-      await axios.post('http://localhost:5000/sponsors', newSponsor, {
+      await axios.post('${process.env.REACT_APP_API_BASE_URL}/sponsors', newSponsor, {
         headers: { Authorization: `Bearer ${token}` },
       });
     }
@@ -41,7 +41,7 @@ const SponsorsAdmin = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    await axios.delete(`http://localhost:5000/sponsors/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/sponsors/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     fetchSponsors();

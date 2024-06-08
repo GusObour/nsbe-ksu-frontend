@@ -12,7 +12,7 @@ const LeadershipAdmin = () => {
 
     const fetchLeaders = async () => {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/leadership', {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/leadership`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         console.log(response.data);
@@ -27,12 +27,12 @@ const LeadershipAdmin = () => {
         e.preventDefault();
         const token = localStorage.getItem('token');
         if (editingLeader) {
-            await axios.put(`http://localhost:5000/leadership/${editingLeader._id}`, newLeader, {
+            await axios.put(`${process.env.REACT_APP_API_BASE_URL}/leadership/${editingLeader._id}`, newLeader, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setEditingLeader(null);
         } else {
-            await axios.post('http://localhost:5000/leadership', newLeader, {
+            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/leadership`, newLeader, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         }
@@ -42,7 +42,7 @@ const LeadershipAdmin = () => {
 
     const handleDelete = async (id) => {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:5000/leadership/${id}`, {
+        await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/leadership/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         fetchLeaders();

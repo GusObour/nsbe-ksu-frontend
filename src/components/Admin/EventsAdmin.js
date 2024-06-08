@@ -14,7 +14,7 @@ const EventsAdmin = () => {
 
   const fetchEvents = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:5000/events', {
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/events`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setEvents(response.data);
@@ -28,12 +28,12 @@ const EventsAdmin = () => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     if (editingEvent) {
-      await axios.put(`http://localhost:5000/events/${editingEvent._id}`, newEvent, {
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/events/${editingEvent._id}`, newEvent, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEditingEvent(null);
     } else {
-      await axios.post('http://localhost:5000/events', newEvent, {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/events`, newEvent, {
         headers: { Authorization: `Bearer ${token}` },
       });
     }
@@ -43,7 +43,7 @@ const EventsAdmin = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    await axios.delete(`http://localhost:5000/events/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/events/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     fetchEvents();
