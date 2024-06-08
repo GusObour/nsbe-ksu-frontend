@@ -9,6 +9,7 @@ const Settings = () => {
   const [email, setEmail] = useState(auth.user?.email || '');
   const [username, setUsername] = useState(auth.user?.username || '');
   const [phoneNumber, setPhoneNumber] = useState(auth.user?.phoneNumber || '');
+  const [profileImage, setProfileImage] = useState(auth.user?.profileImage || '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -21,6 +22,7 @@ const Settings = () => {
         email,
         username,
         phoneNumber,
+        profileImage,
       }, { withCredentials: true });
       setUser(response.data);
       setMessage('Profile updated successfully');
@@ -89,6 +91,19 @@ const Settings = () => {
           onChange={(e) => setPhoneNumber(e.target.value)}
           className="w-full px-3 py-2 border rounded-lg"
         />
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-700 mb-2">Profile Image URL</label>
+        <input
+          type="text"
+          value={profileImage}
+          onChange={(e) => setProfileImage(e.target.value)}
+          className="w-full px-3 py-2 border rounded-lg"
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-700 mb-2">Current Profile Image</label>
+        {profileImage && <img src={profileImage} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4" />}
       </div>
       <button
         onClick={handleUpdateProfile}
