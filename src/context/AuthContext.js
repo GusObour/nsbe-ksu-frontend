@@ -8,7 +8,7 @@ const AuthContextProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await axios.post('auth/login', credentials, { withCredentials: true });
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}auth/login`, credentials, { withCredentials: true });
       const { token, user } = response.data;
       setAuth({ isLoggedIn: true, user });
       localStorage.setItem('token', token);

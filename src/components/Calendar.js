@@ -14,7 +14,7 @@ const Calendar = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await axios.get('/events');
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/events`);
       setEvents(response.data);
     };
     fetchEvents();
