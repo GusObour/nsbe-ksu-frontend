@@ -31,7 +31,7 @@ const SponsorsAdmin = () => {
       });
       setEditingSponsor(null);
     } else {
-      await axios.post('${process.env.REACT_APP_API_BASE_URL}/sponsors', newSponsor, {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/sponsors`, newSponsor, {
         headers: { Authorization: `Bearer ${token}` },
       });
     }
