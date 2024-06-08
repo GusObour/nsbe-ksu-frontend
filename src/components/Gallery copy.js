@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
-
-// Example image data, replace with actual data source
-const images = [
-  { src: 'https://example.com/image1.jpg', alt: 'First slide' },
-  { src: 'https://example.com/image2.jpg', alt: 'Second slide' },
-  { src: 'https://example.com/image3.jpg', alt: 'Third slide' },
-];
+import axios from 'axios';
 
 const Gallery = () => {
+  const [photos, setPhotos] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const response = await axios.get('/api/photos');
+        setPhotos(response.data);
+      } catch (error) {
+        console.error('Error fetching photos:', error);
+      }
+    };
+
+    fetchPhotos();
+  }, []);
+
   const nextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % photos.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + images.length) % images.length);
+    setCurrentSlide((prevSlide) => (prevSlide - 1 + photos.length) % photos.length);
   };
 
   useEffect(() => {
@@ -24,7 +32,7 @@ const Gallery = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [photos]);
 
   return (
     <section id="gallery" className="relative bg-gradient-to-r from-purple to-off-white text-white py-20">
@@ -32,9 +40,9 @@ const Gallery = () => {
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-10">Gallery</h2>
         <div className="relative overflow-hidden w-full min-h-96 bg-white rounded-lg">
           <div className="absolute top-0 bottom-0 left-0 flex flex-nowrap transition-transform duration-700" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-            {images.map((image, index) => (
+            {photos.map((photo, index) => (
               <div key={index} className="hs-carousel-slide flex justify-center items-center h-full w-full bg-gray-100 p-6">
-                <img src={image.src} alt={image.alt} className="object-cover w-full h-full" />
+                <img src={`${photo.baseUrl}=w600-h400`} alt={photo.filename} className="object-cover w-full h-full" />
               </div>
             ))}
           </div>
@@ -51,7 +59,7 @@ const Gallery = () => {
             <span className="sr-only">Next</span>
           </button>
           <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-2">
-            {images.map((_, index) => (
+            {photos.map((_, index) => (
               <button key={index} onClick={() => setCurrentSlide(index)} className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-blue-700 border-blue-700' : 'bg-gray-400'}`}></button>
             ))}
           </div>

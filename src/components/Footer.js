@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 flex items-center">
             <img src="/imgs/NSBE_organization_logo.png" alt="NSBE Logo" className="h-8 w-8 mr-2" />
-            <a href="#" className="text-white text-2xl font-bold">KSU NSBE </a>
+            <a href="/" className="text-white text-2xl font-bold">KSU NSBE</a>
           </div>
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4 md:mb-0">
             <a href="#home" className="text-lightGray hover:text-white">Home</a>
@@ -24,9 +24,9 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-10 text-lightGray text-center md:text-left">
-          <marquee behavior="scroll" direction="left">
-            to increase the number of culturally responsible black engineers who excel academically, succeed professionally and positively impact the community.
-          </marquee>
+          <div className="scrolling-text">
+            To increase the number of culturally responsible black engineers who excel academically, succeed professionally, and positively impact the community.
+          </div>
         </div>
       </div>
     </footer>
