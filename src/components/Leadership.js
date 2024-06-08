@@ -30,7 +30,7 @@ const Leadership = () => {
                 alt={leader.user.username} 
                 className="h-32 w-32 rounded-full mx-auto mb-4" 
               />
-              <h3 className="text-xl font-semibold mb-2">{leader.user.username}</h3>
+              <h3 className="text-xl font-semibold mb-2">{leader.user.firstName} {leader.user.lastName}</h3>
               <p className="text-gray-700">{leader.position}</p>
             </div>
           ))}
