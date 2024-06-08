@@ -103,7 +103,7 @@ const Settings = () => {
       </div>
       <div className="mb-6">
         <label className="block text-gray-700 mb-2">Current Profile Image</label>
-        {profileImage && <img src={profileImage} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4" />}
+        {profileImage && <img src={`${process.env.PUBLIC_URL}${profileImage}`} alt="Profile" className="w-32 h-32 rounded-full mx-auto mb-4" />}
       </div>
       <button
         onClick={handleUpdateProfile}
