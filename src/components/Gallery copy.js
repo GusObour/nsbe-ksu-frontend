@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const Gallery = () => {
@@ -18,13 +18,13 @@ const Gallery = () => {
     fetchPhotos();
   }, []);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % photos.length);
-  };
+  }, [photos.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentSlide((prevSlide) => (prevSlide - 1 + photos.length) % photos.length);
-  };
+  }, [photos.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,7 +32,7 @@ const Gallery = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [photos]);
+  }, [nextSlide]);
 
   return (
     <section id="gallery" className="relative bg-gradient-to-r from-purple to-off-white text-white py-20">
