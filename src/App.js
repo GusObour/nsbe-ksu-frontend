@@ -6,7 +6,7 @@ import MissionStatement from './components/MissionStatement';
 import DonationsAndSponsors from './components/DonationsAndSponsors';
 import Leadership from './components/Leadership';
 import Calendar from './components/Calendar';
-import Gallery from './components/Gallery';
+import Gallery from './components/Gallery copy.js';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
