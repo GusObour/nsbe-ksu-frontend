@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
-  const [user, setUser] = useState({ firstName: '', lastName: '', email: '', username: '', password: '', phoneNumber: '', isLeader: false });
+  const [user, setUser] = useState({ firstName: '', lastName: '', email: '', username: '', password: '', phoneNumber: '', isLeader: false, agreeToSms: false });
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -27,11 +27,14 @@ const Register = () => {
     if (validator.isEmpty(user.username)) {
       return 'Username is required';
     }
-    if (!validator.isLength(user.password, { min: 6 })) {
-      return 'Password must be at least 6 characters long';
+    if (!validator.isStrongPassword(user.password)) {
+      return 'Password must be at least 8 characters long and contain a number and a special character';
     }
     if (user.phoneNumber && !validator.isMobilePhone(user.phoneNumber)) {
       return 'Invalid phone number';
+    }
+    if (!user.agreeToSms) {
+      return 'You must agree to receive text messages from NSBE KSU';
     }
     return '';
   };
@@ -131,6 +134,18 @@ const Register = () => {
             checked={user.isLeader}
             onChange={handleInputChange}
             className="mr-2"
+          />
+          <span>Yes</span>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Agree to receive text messages</label>
+          <input
+            type="checkbox"
+            name="agreeToSms"
+            checked={user.agreeToSms}
+            onChange={handleInputChange}
+            className="mr-2"
+            required
           />
           <span>Yes</span>
         </div>

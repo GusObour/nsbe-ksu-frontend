@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SponsorsAdmin = () => {
   const [sponsors, setSponsors] = useState([]);
@@ -25,26 +27,44 @@ const SponsorsAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    if (editingSponsor) {
-      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/sponsors/${editingSponsor._id}`, newSponsor, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setEditingSponsor(null);
-    } else {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/sponsors`, newSponsor, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+
+    try {
+      if (editingSponsor) {
+        await axios.put(`${process.env.REACT_APP_API_BASE_URL}/sponsors/${editingSponsor._id}`, newSponsor, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setEditingSponsor(null);
+        toast.success('Sponsor updated successfully');
+      } else {
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/sponsors`, newSponsor, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        toast.success('Sponsor added successfully');
+      }
+      fetchSponsors();
+      setNewSponsor({ name: '', image: '' });
+    } catch (error) {
+      if (error.response && error.response.status === 400 && error.response.data.message === 'Sponsor already exists') {
+        toast.error('This sponsor already exists. Please add a different sponsor.');
+      } else {
+        console.error('Error adding sponsor', error);
+        toast.error('An error occurred while adding the sponsor. Please try again.');
+      }
     }
-    fetchSponsors();
-    setNewSponsor({ name: '', image: '' });
   };
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/sponsors/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    fetchSponsors();
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/sponsors/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchSponsors();
+      toast.success('Sponsor deleted successfully');
+    } catch (error) {
+      console.error('Error deleting sponsor', error);
+      toast.error('An error occurred while deleting the sponsor. Please try again.');
+    }
   };
 
   const handleEdit = (sponsor) => {
@@ -54,6 +74,7 @@ const SponsorsAdmin = () => {
 
   return (
     <div>
+      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Sponsors</h2>
       <form onSubmit={handleSubmit} className="mb-4 flex flex-col sm:flex-row">
         <input
