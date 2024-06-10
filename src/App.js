@@ -6,7 +6,7 @@ import MissionStatement from './components/MissionStatement';
 import DonationsAndSponsors from './components/DonationsAndSponsors';
 import Leadership from './components/Leadership';
 import Calendar from './components/Calendar';
-import Gallery from './components/Gallery copy.js';
+import Gallery from './components/Gallery.js';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
@@ -30,11 +30,11 @@ function App() {
           <Route path="/" element={
             <main>
               <Hero />
+              <Gallery />
               <MissionStatement />
               <DonationsAndSponsors />
               <Leadership />
               <Calendar />
-              <Gallery />
             </main>
           } />
         </Routes>

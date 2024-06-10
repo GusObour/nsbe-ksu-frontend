@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-// Example image data, replace with actual data source
-const images = [
-  { src: 'https://example.com/image1.jpg', alt: 'First slide' },
-  { src: 'https://example.com/image2.jpg', alt: 'Second slide' },
-  { src: 'https://example.com/image3.jpg', alt: 'Third slide' },
-];
+// Function to import all images from the directory
+const importAll = (r) => r.keys().map(r);
+const images = importAll(require.context('../assets/Gallery', false, /\.(png|jpe?g|svg)$/));
 
 const Gallery = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -27,34 +24,70 @@ const Gallery = () => {
   }, []);
 
   return (
-    <section id="gallery" className="relative bg-gradient-to-r from-purple to-off-white text-white py-20">
+    <section id="gallery" className="relative bg-gradient-to-r from-purple to-off-white py-20 relative w-full py-20">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-10">Gallery</h2>
-        <div className="relative overflow-hidden w-full min-h-96 bg-white rounded-lg">
-          <div className="absolute top-0 bottom-0 left-0 flex flex-nowrap transition-transform duration-700" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-            {images.map((image, index) => (
-              <div key={index} className="hs-carousel-slide flex justify-center items-center h-full w-full bg-gray-100 p-6">
-                <img src={image.src} alt={image.alt} className="object-cover w-full h-full" />
-              </div>
-            ))}
-          </div>
-          <button type="button" onClick={prevSlide} className="absolute inset-y-0 left-0 flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-800/10 rounded-s-lg">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        <div className="relative h-80 md:h-128 overflow-hidden rounded-lg">
+          {images.map((src, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-transform duration-700 ease-in-out transform ${
+                currentSlide === index ? 'translate-x-0' : 'translate-x-full'
+              }`}
+            >
+              <img
+                src={src}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="absolute inset-0 flex justify-between items-center">
+          <button
+            type="button"
+            className="bg-white p-2 rounded-full shadow-md"
+            onClick={prevSlide}
+          >
+            <svg
+              className="w-6 h-6 text-gray-800"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
-            <span className="sr-only">Previous</span>
           </button>
-          <button type="button" onClick={nextSlide} className="absolute inset-y-0 right-0 flex justify-center items-center w-12 h-full text-gray-800 hover:bg-gray-800/10 rounded-e-lg">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19l7-7-7-7" />
+          <button
+            type="button"
+            className="bg-white p-2 rounded-full shadow-md"
+            onClick={nextSlide}
+          >
+            <svg
+              className="w-6 h-6 text-gray-800"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
             </svg>
-            <span className="sr-only">Next</span>
           </button>
-          <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-2">
-            {images.map((_, index) => (
-              <button key={index} onClick={() => setCurrentSlide(index)} className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-blue-700 border-blue-700' : 'bg-gray-400'}`}></button>
-            ))}
-          </div>
+        </div>
+
+        <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={`w-3 h-3 rounded-full ${
+                currentSlide === index ? 'bg-blue-700' : 'bg-gray-400'
+              }`}
+              onClick={() => setCurrentSlide(index)}
+            />
+          ))}
         </div>
       </div>
     </section>
